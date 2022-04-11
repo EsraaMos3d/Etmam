@@ -1,0 +1,15 @@
+E:\Etmam\Resources\bin\Release\netcoreapp3.1\Resources.deps.json
+E:\Etmam\Resources\bin\Release\netcoreapp3.1\Resources.dll
+E:\Etmam\Resources\bin\Release\netcoreapp3.1\Resources.pdb
+E:\Etmam\Resources\bin\Release\netcoreapp3.1\ar\Resources.resources.dll
+E:\Etmam\Resources\obj\Release\netcoreapp3.1\Resources.csproj.AssemblyReference.cache
+E:\Etmam\Resources\obj\Release\netcoreapp3.1\Resources.Resources.Views.Home.Home_Res.resources
+E:\Etmam\Resources\obj\Release\netcoreapp3.1\Resources.Resources.Views.Home.Home_Res.ar.resources
+E:\Etmam\Resources\obj\Release\netcoreapp3.1\Resources.csproj.GenerateResource.cache
+E:\Etmam\Resources\obj\Release\netcoreapp3.1\Resources.GeneratedMSBuildEditorConfig.editorconfig
+E:\Etmam\Resources\obj\Release\netcoreapp3.1\Resources.AssemblyInfoInputs.cache
+E:\Etmam\Resources\obj\Release\netcoreapp3.1\Resources.AssemblyInfo.cs
+E:\Etmam\Resources\obj\Release\netcoreapp3.1\Resources.csproj.CoreCompileInputs.cache
+E:\Etmam\Resources\obj\Release\netcoreapp3.1\ar\Resources.resources.dll
+E:\Etmam\Resources\obj\Release\netcoreapp3.1\Resources.dll
+E:\Etmam\Resources\obj\Release\netcoreapp3.1\Resources.pdb

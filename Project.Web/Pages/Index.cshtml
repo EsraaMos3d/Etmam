@@ -1,0 +1,27 @@
+﻿@page
+@model IndexModel
+
+@inject IHtmlLocalizer<Resources.Resources.Views.Home.Home_Res> SharedLocalizer
+
+@{
+    ViewData["Title"] = "Home page";
+}
+<style>
+    .homeContent .row .col-sm-12{
+        display:flex;
+        justify-content:center
+    }
+
+</style>
+
+<section class="homeContent">
+    <div class="row">
+        <div class="col-sm-12">
+            <img src="~/img/Etmam.png" />
+        </div>
+
+        <div class="col-sm-12">
+            <h1 class="welcome mt-4">@SharedLocalizer["welcome"]</h1>
+        </div>
+    </div>
+</section>

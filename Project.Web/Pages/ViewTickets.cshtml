@@ -1,0 +1,134 @@
+﻿@page
+@model Project.Web.Pages.ViewTicketsModel
+@{
+    ViewData["Title"] = "View Tickets";
+
+}
+
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">View Tickets</h3>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="TicketsTable">
+                        <thead>
+                            <tr class="table-info">
+                                <th>Ticket ID</th>
+                                <th>Ticket Type</th>
+                                <th>Ticket Status</th>
+                                <th>Status Date</th>
+                                <th>Created Date</th>
+                                <th>Approved by</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*<tr>
+                                    <td>53275531</td>
+                                    <td>Jacob</td>
+                                    <td><label class="badge badge-danger">Rejected</label></td>
+                                    <td>15 May 2017</td>
+                                    <td>15 May 2017</td>
+                                    <td>Ahmed</td>
+                                </tr>
+                                <tr>
+                                    <td>53275531</td>
+                                    <td>Jacob</td>
+                                    <td><label class="badge badge-warning">In progress</label></td>
+                                    <td>15 May 2017</td>
+                                    <td>15 May 2017</td>
+                                    <td>Ahmed</td>
+                                </tr>
+                                <tr>
+                                    <td>53275531</td>
+                                    <td>Jacob</td>
+                                    <td><label class="badge badge-info">Fixed</label></td>
+                                    <td>15 May 2017</td>
+                                    <td>15 May 2017</td>
+                                    <td>Ahmed</td>
+                                </tr>
+                                <tr>
+                                    <td>53275531</td>
+                                    <td>Jacob</td>
+                                    <td><label class="badge badge-success">Approved</label></td>
+                                    <td>15 May 2017</td>
+                                    <td>15 May 2017</td>
+                                    <td>Ahmed</td>
+                                </tr>*@
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts{
+    <script>
+    $(function () {
+     
+    //})
+    //TicketDataTable = function () {
+        $('#TicketsTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "filter": true,
+            "deferRender": true,
+            "pageLength": 10,
+            "paging": true,
+            dom: "Blfrtip",
+            "ordering": false,
+            "lengthMenu": [[10, 25, 50, 100, 150, 200], [10, 25, 50, 100, 150, 200]],
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            "ajax": {
+                "url": "/Home/TicketDataHelder",
+                "type": "POST",
+                // "datatype": "json",
+                "data": function (data) {
+                    index = 0;
+                    return data;
+                },
+            },
+            "columns": [
+                {
+                    data: function (data, row, dataIndex) {
+                        return ++index;
+                    }
+                },
+                { "data": '@SessionHelper.IsArabic' == "True" || '@SessionHelper.IsArabic' == true ? "TicketTypeName_Ar" : "TicketTypeName_En" },
+                {
+                    data: function (data, row) {
+                        var statusvalue = '@SessionHelper.IsArabic' == true ? data.TicketStatusName_Ar : data.TicketStatusName_En;
+                        var status = '';
+                        if (data.FK_TicketStatus_Id == 1) {
+                            status = '<label class="badge badge-info">' + statusvalue + '</label>';
+                        }
+                        else if (data.FK_TicketStatus_Id == 2) {
+                            status = ' <label class="badge badge-success">' + statusvalue + '</label>';
+                        }
+                        else if (data.FK_TicketStatus_Id == 3 || data.FK_TicketStatus_Id == 4) {
+                            status = ' <label class="badge badge-danger">' + statusvalue + '</label>';
+                        }
+                        return status;
+                    }
+                },
+                {
+                    data: function (data, row) {
+                        return data.ModifiedOn ? data.ModifiedOn.toString("MM/dd/yy")  : '';
+                    }
+                },
+                {
+                    data: function (data, row) {
+                       
+                        return data.CreatedOn != null ? data.CreatedOn.toString("MM/dd/yy") : '';
+                    }
+                },
+                { "data": "ApprovedBy" },
+            ]
+        });
+    })
+    </script>
+}

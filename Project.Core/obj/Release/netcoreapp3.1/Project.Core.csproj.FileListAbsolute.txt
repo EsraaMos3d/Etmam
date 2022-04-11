@@ -1,0 +1,10 @@
+E:\Etmam\Project.Core\bin\Release\netcoreapp3.1\Project.Core.deps.json
+E:\Etmam\Project.Core\bin\Release\netcoreapp3.1\Project.Core.dll
+E:\Etmam\Project.Core\bin\Release\netcoreapp3.1\Project.Core.pdb
+E:\Etmam\Project.Core\obj\Release\netcoreapp3.1\Project.Core.csproj.AssemblyReference.cache
+E:\Etmam\Project.Core\obj\Release\netcoreapp3.1\Project.Core.GeneratedMSBuildEditorConfig.editorconfig
+E:\Etmam\Project.Core\obj\Release\netcoreapp3.1\Project.Core.AssemblyInfoInputs.cache
+E:\Etmam\Project.Core\obj\Release\netcoreapp3.1\Project.Core.AssemblyInfo.cs
+E:\Etmam\Project.Core\obj\Release\netcoreapp3.1\Project.Core.csproj.CoreCompileInputs.cache
+E:\Etmam\Project.Core\obj\Release\netcoreapp3.1\Project.Core.dll
+E:\Etmam\Project.Core\obj\Release\netcoreapp3.1\Project.Core.pdb

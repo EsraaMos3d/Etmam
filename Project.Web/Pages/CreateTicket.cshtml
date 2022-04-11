@@ -1,0 +1,161 @@
+﻿@page
+@model Project.Web.Pages.CreateTicketModel
+@*@model Project.Core.Models.Ticket*@
+@{
+    ViewData["Title"] = "Create Tickets";
+}
+
+
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>*@
+<script src="~/js/html2canvas.js"></script>
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+
+        $('#SaveTicket').click(function () {
+            var doc = new jsPDF();
+            doc.addHTML($('#form'), 15, 15, {
+                'background': '#fff',
+                'border': '2px solid white',
+            }, function () {
+                doc.save('sample-file.pdf');
+            });
+        });
+    });
+</script>*@
+
+<div class="row searchRow">
+
+    <div class="col-12 col-sm-3">
+        <div class="form-group">
+            @Html.DropDownList("FK_College_Id", ViewData["Colleges"] != null ? ViewData["Colleges"] as SelectList : new SelectList(Enumerable.Empty<SelectListItem>()), "select College", new { @class = "form-control has-feedback-left", @id = "College_Id", onchange = "ChangeCollegeList()" })
+        </div>
+    </div>
+    <div class="col-12 col-sm-3">
+        <div class="form-group">
+            @Html.DropDownList("FK_Department_Id", new SelectList(Enumerable.Empty<SelectListItem>()), "select Department", new { @class = "form-control has-feedback-left", @id = "Department_Id" })
+        </div>
+    </div>
+    <div class="col-12 col-sm-3">
+        <div class="form-group">
+            @*<label>Select Form </label>*@
+            <select class="form-control" onchange="ChangeForm(this)">
+                <option>Select Form</option>
+                <option value="ResultAmendment.cshtml">
+                    Result Amendment Form
+                </option>
+                <option value="CvPromotion.cshtml">
+                    CvPromotion form
+                </option>
+                <option value="ExcellenceAllowance.cshtml">
+                    Excellence Allowance form
+                </option>
+                <option value="ParticipationRequest.cshtml">
+                    Participation Request form
+                </option>
+                <option value="BookTranslationRequest.cshtml">
+                    Book Translation Request form
+                </option>
+                <option value="BookPublishingRequest.cshtml">
+                    Book Publishing Request form
+                </option>
+            </select>
+        </div>
+    </div>
+
+</div>
+
+<div class="form" id="form">
+
+
+</div>
+<div id="previewImg">
+   
+</div>
+<div class="col-12 col-sm-3">
+    <div class="form-group">
+        <form asp-action="SaveTicket" asp-controller="Home" method="post" OnSuccess="onSuccess(data)">
+            <input type="hidden" ID="hfImageData" name="Data" value="" />
+        </form>
+        <a class="btn btn-info mr-2" @*id="SaveTicket"*@ onclick="SaveTicket()">Save</a>
+    </div>
+</div>
+<script>
+    var element = $("#form"); // global variable
+    var getCanvas; // global variable
+    function subjj() {
+        $.ajax({
+            type: 'POST',
+            url: "/Home/SaveTicket",
+            data: { Data: getCanvas },
+            success: function (result) {
+                if (result == true || result == "True") {
+                    $.toast({
+                        heading: 'Success',
+                        text: 'تم الحفظ بنجاح ',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        position: 'top-right'
+                    })
+                }
+                else {
+                    $.toast({
+                        heading: 'Warning',
+                        text: 'حدث خطأ ',
+                        showHideTransition: 'slide',
+                        icon: 'warning',
+                        position: 'top-right'
+                    })
+                }
+            }
+        });
+    }
+    function SaveTicket() {
+        html2canvas($("#form"), {
+            onrendered: function (canvas) {
+                $("#previewImg").append(canvas);
+                getCanvas = canvas;
+                var base64 = canvas.toDataURL("image/png");
+                $("[id*=hfImageData]").val(base64);
+                $('form').submit();
+            }
+        });
+    }
+
+    function ChangeCollegeList() {
+        debugger
+        var _College_ID = $("#College_Id").val();
+        $.ajax({
+            type: 'POST',
+            url: "/Home/GetDeptByCollege",
+            data: { College_ID: _College_ID },
+            success: function (result) {
+                if (result.length > 0) {
+                    $("#Department_Id").empty()
+                    for (var i = 0; i < result.length; i++) {
+                        $("#Department_Id").append('<option value="' + result[i].Value + '">' + result[i].Text + '</option>');
+                    }
+                }
+                else {
+                    $("#Department_Id").empty().append("<option>Select Department</option>");
+                }
+            }
+        });
+    }
+    function ChangeForm(elem) {
+        $.ajax({
+            type: 'GET',
+            url: "/Home/GetFormt",
+            data: { PartialName: $(elem).val() },
+            success: function (result) {
+                $(".form").html(result);
+            }
+        });
+    }
+    function onSuccess(data) {
+        console.log("fewwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
+    }
+
+</script>
+

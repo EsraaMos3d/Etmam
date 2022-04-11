@@ -1,0 +1,126 @@
+﻿@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+
+@inject IViewLocalizer Localizer
+@inject IOptions<RequestLocalizationOptions> LocOptions
+@{ var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureItems = LocOptions.Value.SupportedUICultures
+        .Select(c => new SelectListItem { Value = c.Name, Text = Localizer.GetString(c.Name) })
+        .ToList();
+    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}{Context.Request.QueryString}"; }
+
+<style>
+    #selectLanguage {
+        display: flex;
+        align-items: center;
+    }
+
+    .header-area .main-header .main-menu ul li .language {
+        display: block;
+        position: relative;
+        z-index: 1;
+    }
+
+    .langForm .langSelect {
+        display: none;
+    }
+
+    .langForm select#requestCulture_RequestCulture_UICulture_Name {
+        display: block !important;
+        font-size: 15px;
+    }
+
+    .langForm form i {
+        font-size: 30px;
+    }
+    /*   .langBg {
+        background-size: 78px !important;
+    }*/
+
+
+
+</style>
+<div title="@Localizer["Request culture provider:"] @requestCulture?.Provider?.GetType().Name">
+    <form id="selectLanguage"
+          asp-controller="Culture"
+          asp-action="SetCulture"
+          asp-route-returnUrl="@returnUrl"
+          method="post"
+          class="langForm"
+          asp-controller-su
+          role="form">
+        @*  <button type="button" onclick="LanguageChange()" flow="up" tooltip="English" class="langBtn"><img class="languageImage" src="~/img/en.png" /></button>*@
+        <i class="fas fa-language"></i> <select name="culture" class="langSelect form-control"
+                                                onchange="this.form.submit();"
+                                                asp-for="@requestCulture.RequestCulture.UICulture.Name"
+                                                asp-items="cultureItems"
+                                                style="display:block !important">
+        </select>
+        <input name="culture" type="hidden" class="culture" value="" />
+
+        <div class="langContainer">
+            <label>
+                <input type="checkbox" checked onchange="LanguageChange()" />
+                <div class="langBg">
+                    <span class="ar"></span>
+                    <span class="en"></span>
+                </div>
+                <i></i>
+            </label>
+        </div>
+
+    </form>
+</div>
+
+
+
+
+<!-- JS here -->
+<!-- Jquery Mobile Menu -->
+<!--<script src="~/js/jquery.slicknav.min.js"></script>-->
+<script src="~/js/jqjuery-min.js"></script>
+<script src="~/js/bootstrap-select.js"></script>
+<script src="~/js/bootstrap-min.js"></script>
+@*<script>
+        $(function () {
+            $('.selectpicker').selectpicker();
+        });
+    </script>*@
+<script>
+
+    $(function () {
+            if ('@SessionHelper.IsArabic' == true || '@SessionHelper.IsArabic' == "True") {
+                $(".culture").val("ar");
+                $(".languageImage").attr("src", "/img/en.png");
+                $(".langBtn").attr("data-original-title", "English");
+                $(".langBg").css("background-image", "url(../../img/america.png)");
+                $(".langBg").css("background-size", "127px");
+            }
+            else {
+                $(".culture").val("en");
+                $(".languageImage").attr("src", "/img/AR.png");
+                $(".langBtn").attr("data-original-title", "Arabic");
+                $(".langBg").css("background-image", "url(../../img/saudiFlag.png)");
+                $(".langBg").css("background-size", "78px");
+            }
+            });
+    function LanguageChange() {
+        console.log("click");
+
+        var images = $('.languageImage').attr('src');
+        if ($(".culture").val() == "en") {
+            $(".culture").val("ar");
+            $(".languageImage").attr("src", "/img/AR.png");
+        }
+        else {
+            $(".languageImage").attr("src", "/img/en.png");
+            $(".culture").val("en");
+        }
+
+        $("#selectLanguage").submit();
+
+    }
+
+</script>

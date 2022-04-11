@@ -1,0 +1,16 @@
+E:\Etmam\Project.EF\bin\Debug\netcoreapp3.1\Project.EF.deps.json
+E:\Etmam\Project.EF\bin\Debug\netcoreapp3.1\Project.EF.runtimeconfig.json
+E:\Etmam\Project.EF\bin\Debug\netcoreapp3.1\Project.EF.runtimeconfig.dev.json
+E:\Etmam\Project.EF\bin\Debug\netcoreapp3.1\Project.EF.dll
+E:\Etmam\Project.EF\bin\Debug\netcoreapp3.1\Project.EF.pdb
+E:\Etmam\Project.EF\bin\Debug\netcoreapp3.1\Project.Core.dll
+E:\Etmam\Project.EF\bin\Debug\netcoreapp3.1\Project.Core.pdb
+E:\Etmam\Project.EF\obj\Debug\netcoreapp3.1\Project.EF.csproj.AssemblyReference.cache
+E:\Etmam\Project.EF\obj\Debug\netcoreapp3.1\Project.EF.GeneratedMSBuildEditorConfig.editorconfig
+E:\Etmam\Project.EF\obj\Debug\netcoreapp3.1\Project.EF.AssemblyInfoInputs.cache
+E:\Etmam\Project.EF\obj\Debug\netcoreapp3.1\Project.EF.AssemblyInfo.cs
+E:\Etmam\Project.EF\obj\Debug\netcoreapp3.1\Project.EF.csproj.CoreCompileInputs.cache
+E:\Etmam\Project.EF\obj\Debug\netcoreapp3.1\Project.EF.csproj.CopyComplete
+E:\Etmam\Project.EF\obj\Debug\netcoreapp3.1\Project.EF.dll
+E:\Etmam\Project.EF\obj\Debug\netcoreapp3.1\Project.EF.pdb
+E:\Etmam\Project.EF\obj\Debug\netcoreapp3.1\Project.EF.genruntimeconfig.cache

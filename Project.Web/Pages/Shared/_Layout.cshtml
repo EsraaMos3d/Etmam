@@ -1,0 +1,299 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@ViewData["Title"] - Project</title>
+
+    <!-- base:css -->
+    <link href="~/typicons.font/font/typicons.css" rel="stylesheet" />
+    <link href="~/css/vendor.bundle.base.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
+    @*<link rel="stylesheet" href="~/css/site.css" />*@
+
+    <link href="~/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+    @*toast*@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css"/>
+
+
+    <link href="~/css/vertical-layout-light/style.css" rel="stylesheet" />
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/images/logo.png" />
+</head>
+<body>
+
+    <i class="typcn typcn-delete-outline d-none" id="bannerClose"></i>
+
+    <div class="container-scroller">
+
+        <!-- partial:partials/_navbar.html -->
+        <div class="topNav">
+            <nav class="navbar col-lg-12 col-12 p-0 d-flex ">
+
+
+                <div class="col-sm-3 saYear">
+                    <img src="~/img/2030sa.png" />
+                </div>
+                <div class="col-sm-5 SaudiLogo">
+                    <img src="~/img/SaudiElectronicUniversity.png" />
+                </div>
+                <div class="col-sm-4 patternImg">
+                    <img src="~/img/pattern.png" />
+                </div>
+            </nav>
+        </div>
+        <nav class="navbar col-lg-12 col-12 p-0  d-flex flex-row">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                <a class="navbar-brand brand-logo" asp-area="" asp-page="/Index"><img src="~/images/logo.png" alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" asp-area="" asp-page="/Index"><img src="~/images/logo.png" alt="logo" /></a>
+                <button class="navbar-toggler navbar-toggler align-self-center d-none d-lg-flex" type="button" data-toggle="minimize">
+                    <span class="typcn typcn-th-menu"></span>
+                </button>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+                <ul class="navbar-nav navbar-nav-right">
+
+                    <li class="nav-item d-none d-lg-flex  mr-2">
+
+                        <span class="language"> @await Html.PartialAsync("_CulturePartial")</span>
+                    </li>
+                    
+                    <li class="nav-item dropdown  d-flex">
+                        <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center" id="notificationDropdown" href="#" data-toggle="dropdown">
+                            <i class="typcn typcn-bell mr-0"></i>
+                            <span class="count bg-danger">@SessionHelper.NotificationsCount</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+                            <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
+                            @if (SessionHelper.Notifications != null && SessionHelper.Notifications.Count > 0 && SessionHelper.RoleName == "ManageTicket")
+                            {
+                                foreach (var item in SessionHelper.Notifications)
+                                {
+                                    <a class="dropdown-item preview-item">
+                                        <div class="preview-thumbnail">
+                                            <div class="preview-icon bg-success">
+                                                <i class="typcn typcn-info-large mx-0"></i>
+                                            </div>
+                                        </div>
+                                        <div class="preview-item-content">
+                                            <h6 class="preview-subject font-weight-normal">@item.NotificationText</h6>
+                                            <p class="font-weight-light small-text mb-0">
+                                                Just now
+                                            </p>
+                                        </div>
+                                    </a>
+                                }
+
+                            }
+                            @if (SessionHelper.Notifications != null && SessionHelper.Notifications.Count > 0 && SessionHelper.RoleName == "CreateTicket")
+                            {
+                                foreach (var item in SessionHelper.Notifications)
+                                {
+                                    <a class="dropdown-item preview-item">
+                                        <div class="preview-thumbnail">
+                                            <div class="preview-icon bg-success">
+                                                <i class="typcn typcn-info-large mx-0"></i>
+                                            </div>
+                                        </div>
+                                        <div class="preview-item-content">
+                                            <h6 class="preview-subject font-weight-normal">@item.NotificationText</h6>
+                                            <p class="font-weight-light small-text mb-0">
+                                                Just now
+                                            </p>
+                                        </div>
+                                    </a>
+                                }
+                            }
+
+                        </div>
+                    </li>
+                    <li class="nav-item nav-profile dropdown">
+                        <a class="nav-link dropdown-toggle  pl-0 pr-0" href="#" data-toggle="dropdown" id="profileDropdown">
+                            <i class="typcn typcn-user-outline mr-0"></i>
+                            <span class="nav-profile-name">@User.Identity.Name!</span>
+                            
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                            <a class="dropdown-item">
+                                <i class="typcn typcn-cog text-primary"></i>
+                                Settings
+                            </a>
+                            @*<a class="dropdown-item">
+                                    <i class="typcn typcn-power text-primary"></i>
+                                    Logout
+                                </a>*@
+                            <a class="dropdown-item">
+                                <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Account/Login", new { area = "Identity" })" method="post">
+
+                                    <button type="submit" class=" btn ">
+                                        <i class="typcn typcn-power text-primary"></i>
+                                        Logout
+                                    </button>
+                                </form>
+                            </a>
+
+                        </div>
+                    </li>
+                </ul>
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                    <span class="typcn typcn-th-menu"></span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:partials/_settings-panel.html -->
+            @*<div class="theme-setting-wrapper">
+                    <div id="settings-trigger"><i class="typcn typcn-cog-outline"></i></div>
+                    <div id="theme-settings" class="settings-panel">
+                        <i class="settings-close typcn typcn-delete-outline"></i>
+                        <p class="settings-heading">SIDEBAR SKINS</p>
+                        <div class="sidebar-bg-options" id="sidebar-light-theme">
+                            <div class="img-ss rounded-circle bg-light border mr-3"></div>
+                            Light
+                        </div>
+                        <div class="sidebar-bg-options selected" id="sidebar-dark-theme">
+                            <div class="img-ss rounded-circle bg-dark border mr-3"></div>
+                            Dark
+                        </div>
+                        <p class="settings-heading mt-2">HEADER SKINS</p>
+                        <div class="color-tiles mx-0 px-4">
+                            <div class="tiles success"></div>
+                            <div class="tiles warning"></div>
+                            <div class="tiles danger"></div>
+                            <div class="tiles primary"></div>
+                            <div class="tiles info"></div>
+                            <div class="tiles dark"></div>
+                            <div class="tiles default border"></div>
+                        </div>
+                    </div>
+                </div>*@
+
+            <!-- partial -->
+            <!-- partial:partials/_sidebar.html -->
+            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <div class="d-flex sidebar-profile">
+                            <div class="sidebar-profile-image">
+                                <img src="~/Images/avatar2.png" alt="image">
+                                <span class="sidebar-status-indicator"></span>
+                            </div>
+                            <div class="sidebar-profile-name">
+                                <partial name="_LoginPartial" />
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-page="/Index">
+                            <i class="typcn typcn-device-desktop menu-icon"></i>
+                            <span class="menu-title">Home <span class="badge badge-primary ml-3">New</span></span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-page="/CreateTicket">
+                            <i class="typcn typcn-ticket menu-icon"></i>
+                            <span class="menu-title">Create Tickets</span>
+                        </a>
+                    </li>
+                    @if (SessionHelper.RoleName == "CreateTicket")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/ViewTickets">
+                                <i class="typcn typcn-eye-outline menu-icon"></i>
+                                <span class="menu-title">View Tickets</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/SearchTickets">
+                                <i class="typcn typcn-zoom-outline menu-icon"></i>
+                                <span class="menu-title">Search Tickets</span>
+                            </a>
+                        </li>
+
+                    }
+                    @if (SessionHelper.RoleName == "ManageTicket")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/ManageTickets">
+                                <i class="typcn typcn-ticket menu-icon"></i>
+                                <span class="menu-title">Manage Tickets</span>
+                            </a>
+                        </li>
+                    }
+                    @if (SessionHelper.RoleName == "ManageAuthority")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/ManageAuthority">
+                                <i class=" typcn typcn-group menu-icon"></i>
+                                <span class="menu-title">Manage Authority</span>
+                            </a>
+                        </li>
+                    }
+                    @if (SessionHelper.RoleName == "ManageReport")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Reports">
+                                <i class="typcn typcn-document-text menu-icon"></i>
+                                <span class="menu-title">Reports</span>
+                            </a>
+                        </li>
+
+                    }
+
+                </ul>
+            </nav>
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    @RenderBody()
+
+                </div>
+                <!-- content-wrapper ends -->
+                <!-- partial:partials/_footer.html -->
+                <footer class="footer">
+                    <div class="d-sm-flex justify-content-center">
+                        <h5>
+                            Saudi Electronic University. ©2021
+                        </h5>
+                    </div>
+                </footer>
+                <!-- partial -->
+            </div>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+
+    <!-- base:js -->
+    <script src="~/js/vendor.bundle.base.js"></script>
+    <!-- inject:js -->
+    <script src="~/js/off-canvas.js"></script>
+    <script src="~/js/hoverable-collapse.js"></script>
+    <script src="~/js/template.js"></script>
+    <script src="~/js/settings.js"></script>
+    <script src="~/js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- plugin js for this page -->
+    <script src="~/js/progressbar.js/progressbar.min.js"></script>
+    <script src="~/js/chart.js/Chart.min.js"></script>
+
+    <!-- End plugin js for this page -->
+    <!-- Custom js for this page-->
+    <script src="~/js/dashboard.js"></script>
+    <!-- End custom js for this page-->
+    <script src="~/js/jquery.dataTables.min.js"></script>
+   
+    <!-- Toast js for this page-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.js"></script>
+
+
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

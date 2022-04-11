@@ -1,0 +1,339 @@
+﻿@page
+@model Project.Web.Pages.ReportsModel
+@{
+    ViewData["Title"] = "Reports";
+}
+<div class="row">
+    <div class="col-sm-6">
+        <h3 class="mb-0 font-weight-bold">Tickets Report</h3>
+        @*<p>Your last login: 21h ago from newzealand.</p>*@
+    </div>
+    @*<div class="col-sm-6">
+        <div class="d-flex align-items-center justify-content-md-end">
+            <div class="mb-3 mb-xl-0 pr-1">
+                <div class="dropdown">
+                    <button class="btn bg-white btn-sm dropdown-toggle btn-icon-text border mr-2" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="typcn typcn-calendar-outline mr-2"></i>Last 7 days
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3" data-x-placement="top-start">
+                        <h6 class="dropdown-header">Last 14 days</h6>
+                        <a class="dropdown-item" href="#">Last 21 days</a>
+                        <a class="dropdown-item" href="#">Last 28 days</a>
+                    </div>
+                </div>
+            </div>
+            <div class="pr-1 mb-3 mr-2 mb-xl-0">
+                <button type="button" class="btn btn-sm bg-white btn-icon-text border"><i class="typcn typcn-arrow-forward-outline mr-2"></i>Export</button>
+            </div>
+            <div class="pr-1 mb-3 mb-xl-0">
+                <button type="button" class="btn btn-sm bg-white btn-icon-text border"><i class="typcn typcn-info-large-outline mr-2"></i>info</button>
+            </div>
+        </div>
+    </div>*@
+</div>
+
+<div class="row">
+    <div class="col-lg-6 d-flex grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*// circle chart*@
+    <div class="col-xl-6 d-flex grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex flex-wrap justify-content-between">
+                    <h4 class="card-title mb-3">Sessions by Channel</h4>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div id="circleProgress6" class="progressbar-js-circle rounded p-3"></div>
+                            </div>
+                            <div class="col-lg-6">
+                                <ul class="session-by-channel-legend">
+                                    <li>
+                                        <div>Firewalls(3)</div>
+                                        <div>4(100%)</div>
+                                    </li>
+                                    <li>
+                                        <div>Ports(12)</div>
+                                        <div>12(100%)</div>
+                                    </li>
+                                    <li>
+                                        <div>Servers(233)</div>
+                                        <div>2(100%)</div>
+                                    </li>
+                                    <li>
+                                        <div>Firewalls(3)</div>
+                                        <div>7(100%)</div>
+                                    </li>
+                                    <li>
+                                        <div>Firewalls(3)</div>
+                                        <div>6(70%)</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@*progress bar + chart*@
+<div class="row">
+    <div class="col-lg-4 d-flex grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex flex-wrap justify-content-between">
+                    <h4 class="card-title mb-3">Sale Analysis Trend</h4>
+                </div>
+                <div class="mt-2">
+                    <div class="d-flex justify-content-between">
+                        <small>All Ticket</small>
+                        <small>@Model.AllTicketCount%</small>
+                    </div>
+                    <div class="progress progress-md  mt-2">
+                        <div class="progress-bar bg-secondary" role="progressbar" style="width: @Model.AllTicketCount%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <div class="d-flex justify-content-between">
+                        <small>Created Ticket</small>
+                        <small>@Model.CreatedTicketCount%</small>
+                    </div>
+                    <div class="progress progress-md  mt-2">
+                        <div class="progress-bar bg-dribbble" role="progressbar" style="width: @Model.CreatedTicketCount%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="d-flex justify-content-between">
+                        <small>Approved Ticket</small>
+                        <small>@Model.ApprovedTicketCount%</small>
+                    </div>
+                    <div class="progress progress-md  mt-2">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: @Model.ApprovedTicketCount%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <div class="mt-4 mb-5">
+                    <div class="d-flex justify-content-between">
+                        <small>Rejected Ticket</small>
+                        <small>@Model.RejectedTicketCount%</small>
+                    </div>
+                    <div class="progress progress-md mt-2">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: @Model.RejectedTicketCount%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <div class="mt-4 mb-5">
+                    <div class="d-flex justify-content-between">
+                        <small>Deleted Ticket</small>
+                        <small>@Model.DeletedTicketCount%</small>
+                    </div>
+                    <div class="progress progress-md mt-2">
+                        <div class="progress-bar bg-github" role="progressbar" style="width: @Model.DeletedTicketCount%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <canvas id="salesTopChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8 d-flex grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">View Tickets</h3>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="TicketsTable">
+                        <thead>
+                            <tr class="table-info">
+                                <th>Ticket ID</th>
+                                <th>Ticket Type</th>
+                                <th>Ticket Status</th>
+                                <th>Status Date</th>
+                                <th>Created Date</th>
+                                <th>Approved by</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*tickets table*@
+@*<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">View Tickets</h3>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="TicketsTable">
+                        <thead>
+                            <tr class="table-info">
+                                <th>Ticket ID</th>
+                                <th>Ticket Type</th>
+                                <th>Ticket Status</th>
+                                <th>Status Date</th>
+                                <th>Created Date</th>
+                                <th>Approved by</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+
+
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.min.js'></script>
+
+@section Scripts{
+    <script>
+    $(function () {
+
+    //})
+    //TicketDataTable = function () {
+        $('#TicketsTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "filter": true,
+            "deferRender": true,
+            "pageLength": 10,
+            "paging": true,
+            dom: "Blfrtip",
+            "ordering": false,
+            "lengthMenu": [[10, 25, 50, 100, 150, 200], [10, 25, 50, 100, 150, 200]],
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            "ajax": {
+                "url": "/Home/TicketDataHelder",
+                "type": "POST",
+                // "datatype": "json",
+                "data": function (data) {
+                    index = 0;
+                    return data;
+                },
+            },
+            "columns": [
+                {
+                    data: function (data, row, dataIndex) {
+                        return ++index;
+                    }
+                },
+                { "data": '@SessionHelper.IsArabic' == "True" || '@SessionHelper.IsArabic' == true ? "TicketTypeName_Ar" : "TicketTypeName_En" },
+                {
+                    data: function (data, row) {
+                        var statusvalue = '@SessionHelper.IsArabic' == true ? data.TicketStatusName_Ar : data.TicketStatusName_En;
+                        var status = '';
+                        if (data.FK_TicketStatus_Id == 1) {
+                            status = '<label class="badge badge-info">' + statusvalue + '</label>';
+                        }
+                        else if (data.FK_TicketStatus_Id == 2) {
+                            status = ' <label class="badge badge-success">' + statusvalue + '</label>';
+                        }
+                        else if (data.FK_TicketStatus_Id == 3 || data.FK_TicketStatus_Id == 4) {
+                            status = ' <label class="badge badge-danger">' + statusvalue + '</label>';
+                        }
+                        return status;
+                    }
+                },
+                {
+                    data: function (data, row) {
+                        return data.ModifiedOn ? data.ModifiedOn.toString("MM/dd/yy")  : '';
+                    }
+                },
+                {
+                    data: function (data, row) {
+
+                        return data.CreatedOn != null ? data.CreatedOn.toString("MM/dd/yy") : '';
+                    }
+                },
+                { "data": "ApprovedBy" },
+            ]
+        });
+    })
+    </script>
+}
+
+<script>
+
+    var canvas = document.getElementById("barChart");
+    var ctx = canvas.getContext('2d');
+
+    // Global Options:
+    Chart.defaults.global.defaultFontColor = 'dodgerblue';
+    Chart.defaults.global.defaultFontSize = 16;
+
+
+    // Data with datasets options
+    var data = {
+        labels: ["Created", "Approved", "Rejected", "Deleted"],
+        datasets: [
+            {
+                label: "Created",
+                fill: true,
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.4)',
+                    'rgba(75, 192, 192, 0.4)',
+                    'rgba(255, 206, 86, 0.4)',
+                    'rgba(255, 99, 132, 0.4)'
+
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 99, 132, 1)'
+
+                ],
+                borderWidth: 1,
+                data: [@Model.CreatedTicketCount, @Model.ApprovedTicketCount, @Model.RejectedTicketCount, @Model.DeletedTicketCount]
+            }
+        ]
+    };
+
+    // Notice how nested the beginAtZero is
+    var options = {
+        title: {
+            display: true,
+            text: 'Tickets Analytics',
+            position: 'bottom'
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    };
+
+    // Chart declaration:
+    var myBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: options
+    });
+
+</script>

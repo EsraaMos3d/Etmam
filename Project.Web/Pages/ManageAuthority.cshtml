@@ -1,0 +1,208 @@
+﻿@page
+@model Project.Web.Pages.ManageAuthorityModel
+@{
+    ViewData["Title"] = "Manage Authority";
+}
+
+<!--<div class="row">
+    <div class="col-lg-6 d-flex grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex flex-wrap justify-content-between">
+                    <h4 class="card-title mb-3">Manage Authority</h4>
+                </div>
+                <div class="row searchRow">
+
+                            <div class="col-12 col-sm-5">
+                                <div class="form-group">
+                                    <label>Employee Name</label>
+                                    <input class="form-control" type="text"id="Name" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-5">
+                                <div class="form-group">
+                                    <label>Employee ID</label>
+                                    <input class="form-control" type="number" id="UserNumber"/>
+                                </div>
+                            </div>
+
+                    <div class="col-12 col-sm-2">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-info mr-2" onclick="GetEmployee()">Search</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-12 col-sm-5">
+                        <div class="form-group">
+                            <label>Authority Name</label>
+                            <select class="form-control">
+                                <option value="SearchTickets" selected>Search Tickets</option>
+                                <option value="ManageTickets">Manage Tickets</option>
+                                <option value="ManageAuthority">View Reports</option>
+                                <option value="ManageAuthority">Manage Authority</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 d-flex grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex flex-wrap justify-content-between">
+                    <h4 class="card-title mb-3">Employee Info</h4>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered" style="width:40%">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="d-flex">-->
+@*<img class="img-sm rounded-circle mb-md-0 mr-2" src="images/faces/face30.png" alt="profile image">*@
+<!--<div>
+                                            <div class="font-weight-bold"> Name</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="font-weight-bold">Fatmaaaaaaaaa</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex">
+                                        <div>
+                                            <div class="font-weight-bold"> Email</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="">Fatma@mail.com</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex">
+                                        <div>
+                                            <div class="font-weight-bold"> Phone Number</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="">123456789989</div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->
+
+
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Manage Tickets</h3>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="UserTable">
+                        <thead>
+                            <tr class="table-info">
+                                <th>User ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th>RoleName</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts{
+    <script>
+        var RolesList = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["Roles"]))');
+        function ChangeUserRole(Id, _NewRole, _OldRoleName) {
+            $.ajax({
+                type: 'POST',
+                url: "/Home/ChangeUserRole",
+                data: { User_ID: Id, NewRole: $(_NewRole).val(), OldRoleName: _OldRoleName },
+                success: function (result) {
+                    $.toast({
+                        heading: 'Success',
+                        text: 'Employee role changed successfully!',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        position: 'top-right'
+                    })
+                }
+            });
+         //   $("#ManageTable").DataTable().ajax.reload();
+        }
+        $(function () {
+            $('#UserTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "filter": true,
+            "deferRender": true,
+            "pageLength": 10,
+            "paging": true,
+            dom: "Blfrtip",
+            "ordering": false,
+            "lengthMenu": [[10, 25, 50, 100, 150, 200], [10, 25, 50, 100, 150, 200]],
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            "ajax": {
+                "url": "/Home/UserDataHelder",
+                "type": "POST",
+                // "datatype": "json",
+                "data": function (data) {
+                    index = 0;
+                    return data;
+                },
+            },
+            "columns": [
+                {
+                    data: function (data, row, dataIndex) {
+                        return ++index;
+                    }
+                },
+                { "data": '@SessionHelper.IsArabic' == "True" || '@SessionHelper.IsArabic' == true ? "Full_Name_Ar" : "Full_Name_En" },
+                { "data": "Email" },
+                { "data": "Mobile" },
+                {
+                    data: function (data, row) {
+                        var UserRoleSelect = `<select class="form-control" onchange="ChangeUserRole('` + data.UserId + `',this,'` + data.RoleName+`')"> `;
+                        $.each(RolesList, function (index, element) {
+                            if (element.Value == data.RoleId) {
+                                UserRoleSelect += '<option value="' + element.Text + '"selected>' + element.Text + '</option>';
+                            }
+                            else {
+                                UserRoleSelect += '<option value="' + element.Text + '">' + element.Text + '</option>';
+                            }
+                        })
+                        UserRoleSelect += '</select >';
+                        return UserRoleSelect;
+                    }
+                },
+            ]
+        });
+    });
+    </script>
+}

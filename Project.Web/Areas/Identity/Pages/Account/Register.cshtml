@@ -1,0 +1,168 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Pages/Shared/_LoginLayout.cshtml";
+}
+
+
+@*<div class="row">
+    <div class="col-md-4">
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h4>Create a new account.</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.NameAr"></label>
+                <input asp-for="Input.NameAr" class="form-control" />
+                <span asp-validation-for="Input.NameAr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.NameEn"></label>
+                <input asp-for="Input.NameEn" class="form-control" />
+                <span asp-validation-for="Input.NameEn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Mobile"></label>
+                <input asp-for="Input.Mobile" class="form-control" />
+                <span asp-validation-for="Input.Mobile" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+
+
+</div>*@
+
+
+<div class="login ">
+    <div class=" main">
+        <div class="row loginContent">
+            <div class="col-12 col-sm-6 imgContainer">
+                <img src="~/Images/logo.png" class="logoImg" />
+            </div>
+            <div class="col-12 col-sm-6 signin-border">
+                <h2>Create a new account</h2>
+                <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <!--<div class="form-group">-->
+                        @*<label for="employee-id"><b>Employee ID :</b></label>*@
+                        <!--<input asp-for="Input.Email"  class="form-control" placeholder="Enter Employee ID" required />
+                    </div>-->
+                    <div class="form-group">
+                        @*<label asp-for="Input.Email"></label>*@
+                        <input asp-for="Input.Email" type="email" class="form-control" placeholder="Enter Email" required />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        @*<label asp-for="Input.Password"></label>*@
+                        <input asp-for="Input.Password" class="form-control" placeholder="Enter Password" required />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        @*<label asp-for="Input.ConfirmPassword"></label>*@
+                        <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirm Password" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        @*<label for="Fullname"> <b>Full name :</b></label>*@
+                        <input asp-for="Input.NameAr" class="form-control" placeholder="Enter Arabic full name" required />
+                    </div>
+                    <div class="form-group">
+                        @*<label for="Fullname"> <b>Full name :</b></label>*@
+                        <input asp-for="Input.NameEn" class="form-control" placeholder="Enter English full name" required />
+                    </div>
+                    <div class="form-group">
+                        @*<label for="phone"><b>Phone number :</b></label>*@
+                        @*<input type="tel" id="phone" name="phone" placeholder="9665xxxxxxxx" required>*@
+                        <input asp-for="Input.Mobile" class="form-control" placeholder="Enter Phone number 9665xxxxxxxx" required />
+
+                    </div>
+                    <div class="form-group">
+                        @*<label for="College"> <b>Select Colleges :</b></label><br>*@
+                        @Html.DropDownListFor(a => a.Input.FK_College_Id, ViewData["Colleges"] != null ? ViewData["Colleges"] as SelectList : new SelectList(Enumerable.Empty<SelectListItem>()), "select College", new { @class = "form-control has-feedback-left", @id = "College_Id", onchange = "ChangeCollegeList()" })
+                        @*<select name="College" class="form-control" id="College" onchange="changeDeptList()">
+                <option disabled selected align="middle">Select Colleges</option>
+                <option value="" align="middle">None</option>
+                <option value="op1">College of Administrative and Financial Sciences</option>
+                <option value="op2">College of Computing and Informatics</option>
+                <option value="op3">College of Health Sciences</option>
+                <option value="op4">College of Science and Theoretical Studies</option>
+            </select>*@
+                    </div>
+                    <div class="form-group">
+                        @*<label for="departments"> <b>Select departments :</b></label><br>*@
+                        @Html.DropDownListFor(a => a.Input.FK_Department_Id, new SelectList(Enumerable.Empty<SelectListItem>()), "select Department", new { @class = "form-control has-feedback-left", @id = "Department_Id" })
+                    </div>
+                    <div class="form-group">
+                        @*<label for="branches"> <b>Select Branches :</b></label><br>*@
+                        @Html.DropDownListFor(a => a.Input.FK_Branch_Id, ViewData["Branchs"] != null ? ViewData["Branchs"] as SelectList : new SelectList(Enumerable.Empty<SelectListItem>()), "select Branch", new { @class = "form-control has-feedback-left", @id = "Branch_Id" })
+                        @*<select name="branches" id="branches" class="form-control" required>
+                <option disabled selected> Select Branches</option>
+                <option value="" align="middle">None</option>
+                <option value="Riyadh">Riyadh</option>
+                <option value="Dammam">Dammam</option>
+                <option value="Jeddah">Jeddah</option>
+                <option value="Madinah">Madinah</option>
+                <option value="Qassim">Qassim</option>
+                <option value="Abha">Abha</option>
+                <option value="Tabuk">Tabuk</option>
+                <option value="Jazan">Jazan</option>
+                <option value="Alahsa">Alahsa</option>
+                <option value="Najran">Najran</option>
+                <option value="Hail">Hail</option>
+            </select>*@
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function ChangeCollegeList() {
+        debugger
+        var _College_ID = $("#College_Id").val();
+        $.ajax({
+            type: 'POST',
+            url: "/Home/GetDeptByCollege",
+            data: { College_ID: _College_ID },
+            success: function (result) {
+                if (result.length > 0) {
+                    $("#Department_Id").empty();
+                    for (var i = 0; i < result.length; i++) {
+                        $("#Department_Id").append('<option value="' + result[i].Value + '">' + result[i].Text + '</option>');
+                    }
+                }
+                else {
+                    $("#Department_Id").empty().append("<option>Select Department</option>");
+                }
+            }
+        });
+    }
+</script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
